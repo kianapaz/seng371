@@ -1,4 +1,4 @@
-# seng371
+# SENG 371
 Spring 2022
 Professor Jens Weber
 Group Members: Austin Basset, Ama Danso-Dodoo, Kiana Pazdernik
