@@ -1,0 +1,12 @@
+targetCompatibility='1.8'
+sourceCompatibility='1.8'
+	
+repositories {
+    maven { url "https://josm.openstreetmap.de/nexus/content/groups/public/" }
+}
+
+dependencies {
+    implementation project(':freeplane')
+
+    lib 'org.openstreetmap.jmapviewer:jmapviewer:2.15'
+}

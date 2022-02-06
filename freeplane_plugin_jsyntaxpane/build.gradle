@@ -1,0 +1,20 @@
+plugins {
+   id 'org.xbib.gradle.plugin.jflex' version '1.2.1'
+}
+
+
+dependencies {
+    implementation project(':freeplane')
+
+    // from flatDir "localGitDepsRepository":
+    // from the Debian "libjsyntaxpane-java" package:
+    // https://anonscm.debian.org/cgit/pkg-java/libjsyntaxpane-java.git
+    lib 'de.sciss:syntaxpane:1.2.0'
+}
+
+ext.bundleExports = """\
+                 de.sciss.syntaxpane,
+                 de.sciss.syntaxpane.lexers,
+                 de.sciss.syntaxpane.syntaxkits,
+                 de.sciss.syntaxpane.actions
+                 """

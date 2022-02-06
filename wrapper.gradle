@@ -1,0 +1,3 @@
+task wrapper(type: Wrapper, overwrite: true) {
+    gradleVersion = '7.0.0'
+}
