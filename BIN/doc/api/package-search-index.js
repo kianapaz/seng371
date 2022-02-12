@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.freeplane.api"},{"l":"org.freeplane.core.ui.components"},{"l":"org.freeplane.core.util"},{"l":"org.freeplane.launcher"},{"l":"org.freeplane.plugin.script"},{"l":"org.freeplane.plugin.script.proxy"}];updateSearchResults();

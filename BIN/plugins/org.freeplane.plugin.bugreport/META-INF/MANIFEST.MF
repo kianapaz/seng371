@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-Activator: org.freeplane.plugin.bugreport.Activator
+Bundle-ClassPath: .,lib/plugin-1.9.13.jar
+Bundle-ManifestVersion: 2
+Bundle-Name: org.freeplane.plugin.bugreport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-SymbolicName: org.freeplane.plugin.bugreport
+Bundle-Vendor: Freeplane Project
+Bundle-Version: 1.9.13
+Created-By: 17.0.2 (Homebrew)
+Private-Package: org.freeplane.plugin.bugreport
+Require-Bundle: org.freeplane.core
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Tool: Bnd-5.3.0.202102221516
+
