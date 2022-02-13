@@ -279,4 +279,3 @@ task format_translation {
 
 apply from: './dist.gradle'
 apply from: './jdt-config.gradle'
-
