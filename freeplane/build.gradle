@@ -374,4 +374,3 @@ build.dependsOn copyDoc
 apply from: './signjar.gradle'
 
 apply from: './format_translation.gradle'
-
