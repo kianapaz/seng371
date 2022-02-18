@@ -10,9 +10,9 @@
 name: Java CI with Gradle second workflow
 
 on:
-  approve:
+  push:
     branches: [ main ]
-  review:
+  pull_request:
     branches: [ main ]
         
 jobs:
