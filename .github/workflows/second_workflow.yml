@@ -7,7 +7,7 @@
 
 #second workflow: approve, review
 
-name: Java CI with Gradle second workflow
+name: Java CI with Gradle Workflow 2
 
 on:
   push:
