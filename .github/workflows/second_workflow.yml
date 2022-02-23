@@ -1,5 +1,6 @@
 # Workflow 2
 # This workflow was create dusing the Github Actions: Java with Gradle
+# Triggered by any Pushes or Pull Requests to the Main Branch. 
 # This workflow will build and test a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # This workflow also includes an Experimental Include and will fail safely in case there is an error. 
 #second workflow: approve, review
@@ -37,6 +38,8 @@ jobs:
     
     - name: Execute Gradle build Workflow 2
       run: gradle build
+        echo "Workflow 2 Building" 
       
     - name: Execute Gradle test Workflow 2
       run: gradle test
+        echo "Workflow 2 Testing" 
