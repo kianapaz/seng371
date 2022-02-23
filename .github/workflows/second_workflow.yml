@@ -41,8 +41,6 @@ jobs:
     
     - name: Execute Gradle build Workflow 2
       run: gradle build
-        echo "Workflow 2 Building" 
       
     - name: Execute Gradle test Workflow 2
       run: gradle test
-        echo "Workflow 2 Testing" 
