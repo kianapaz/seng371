@@ -1,9 +1,7 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+# Workflow 3
+# Created using Github Actions
+# Triggered by a Push or Pull Request to Main branch. As well as any open PR's
+# Uses "triage" command to triage if and only if the Pull Request user is not a bot
 
 name: Java CI with Gradle Workflow 3
 
