@@ -10,6 +10,8 @@ name: Java CI with Gradle Workflow 1
 on:
   branch_protection_rule:
     types: [edited, created, deleted]
+  schedule:
+  - cron:  '30 8 * * 1'    # Every Monday at 8:30am
         
 jobs:
   gradle:
