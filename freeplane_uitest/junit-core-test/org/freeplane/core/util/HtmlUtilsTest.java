@@ -11,6 +11,7 @@ public class HtmlUtilsTest {
 
     @Test
     public void testing_Purposes_CI() {
+        // testing for CI walkthrough
         assertEquals("test", "test");
     }
 
