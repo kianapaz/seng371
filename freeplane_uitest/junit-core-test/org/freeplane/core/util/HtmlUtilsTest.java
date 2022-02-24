@@ -10,10 +10,16 @@ public class HtmlUtilsTest {
     private final String text2 = "bla";
 
     @Test
+    public void testing_Purposes_CI() {
+        assertEquals("test", "test");
+    }
+
+    @Test
     public void plainToHTML_wraps_text_in_paragraph() {
         // plainToHTML is used in HtmlUtils.join() which assumes that text is wrapped in <p>
         assertEquals(body(e("p", "a") + '\n' + e("p", "b")), HtmlUtils.plainToHTML("a\nb"));
     }
+
     @Test
     public void plainToHTML_creates_two_paragraphs_from_one_newline() {
         assertEquals(body(e("p", "") + '\n' + e("p", "")), HtmlUtils.plainToHTML("\n"));
