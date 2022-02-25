@@ -9,7 +9,7 @@ on:
   branch_protection_rule:
     types: [edited, created, deleted]
   schedule:
-  - cron:  '30 8 * * 5'    # Every Friday at 8:30am
+  - cron:  '30 16 * * 5'    # Every Friday at 8:30am
         
 jobs:
   gradle:
