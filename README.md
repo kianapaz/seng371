@@ -7,6 +7,7 @@ Group Members: Austin Basset, Ama Danso-Dodoo, Kiana Pazdernik
 Repository to hold the assignments for SENG 371. 
 For the Software Evolution Milestones.
 Choosen Open Source Project: Freeplane (Original repo link: https://github.com/freeplane/freeplane)
+Milestone 1: Continuous Integration was setup. Three Workflows will now trigger build and tests for the program. 
 
 ### Freeplane
 Freeplane is an open source productivity application with mind mapping and mapping information software tools at its core.
