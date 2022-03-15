@@ -35,6 +35,7 @@ import javax.swing.RootPaneContainer;
 import javax.swing.SwingConstants;
 
 import org.freeplane.core.resources.ResourceController;
+import org.freeplane.core.ui.AFreeplaneAction;
 import org.freeplane.core.ui.IEditHandler;
 import org.freeplane.core.ui.IKeyStrokeProcessor;
 import org.freeplane.core.ui.IMouseListener;
@@ -159,6 +160,12 @@ public class MModeControllerFactory {
  	private MModeController modeController;
 	private MUIFactory uiFactory;
 
+    private void modeActionAddition(AFreeplaneAction[] addThese){
+        for(int i = 0; i < addThese.length; i++){
+            modeController.addAction(addThese[i]);
+        }
+    }
+
 	private void createAddIns() {
 		final StyleEditorPanel panel = new StyleEditorPanel(modeController, uiFactory, true);
 		final JScrollPane styleScrollPane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -174,33 +181,58 @@ public class MModeControllerFactory {
 		final MMapController mapController = (MMapController) modeController.getMapController();
 		mapController.addMapLifeCycleListener(new SummaryNodeMapUpdater(modeController, mapController));
 		final AlwaysUnfoldedNode alwaysUnfoldedNode = new AlwaysUnfoldedNode();
-		modeController.addAction(new SetAlwaysUnfoldedNodeFlagsAction(alwaysUnfoldedNode));
-		modeController.addAction(new RemoveAllAlwaysUnfoldedNodeFlagsAction(alwaysUnfoldedNode));
+        modeActionAddition(new AFreeplaneAction[]{new SetAlwaysUnfoldedNodeFlagsAction(alwaysUnfoldedNode), new RemoveAllAlwaysUnfoldedNodeFlagsAction(alwaysUnfoldedNode)});
+		// modeController.addAction(new SetAlwaysUnfoldedNodeFlagsAction(alwaysUnfoldedNode));
+		// modeController.addAction(new RemoveAllAlwaysUnfoldedNodeFlagsAction(alwaysUnfoldedNode));
 		FreeNode.install();
 		new CreationModificationDatePresenter();
 		modeController.addExtension(ReminderHook.class, new ReminderHook(modeController));
 		new AutomaticEdgeColorHook();
 		new ViewerController();
 		PresentationController.install(modeController);
-		modeController.addAction(new AddAttributeAction());
-		modeController.addAction(new RemoveFirstAttributeAction());
-		modeController.addAction(new RemoveLastAttributeAction());
-		modeController.addAction(new RemoveAllAttributesAction());
-		modeController.addAction(new AddExternalImageAction());
-		modeController.addAction(new RemoveExternalImageAction());
-		modeController.addAction(new ShowFormatPanelAction());
-		modeController.addAction(new FitToPage());
-		modeController.addAction(new UpdateCheckAction(modeController.getController()));
+        AFreeplaneAction[] actionsToAddOne = new AFreeplaneAction[]{
+            new AddAttributeAction(),
+            new RemoveFirstAttributeAction(),
+            new RemoveLastAttributeAction(),
+            new RemoveAllAttributesAction(),
+            new AddExternalImageAction(),
+            new RemoveExternalImageAction(),
+            new ShowFormatPanelAction(),
+            new FitToPage(),
+            new UpdateCheckAction(modeController.getController())
+        };
+
+        modeActionAddition(actionsToAddOne);
+		// modeController.addAction(new AddAttributeAction());
+		// modeController.addAction(new RemoveFirstAttributeAction());
+		// modeController.addAction(new RemoveLastAttributeAction());
+		// modeController.addAction(new RemoveAllAttributesAction());
+		// modeController.addAction(new AddExternalImageAction());
+		// modeController.addAction(new RemoveExternalImageAction());
+		// modeController.addAction(new ShowFormatPanelAction());
+		// modeController.addAction(new FitToPage());
+		// modeController.addAction(new UpdateCheckAction(modeController.getController()));
 		MEncryptionController.install(new MEncryptionController(modeController));
-		modeController.addAction(new IconSelectionPlugin());
-		modeController.addAction(new NewParentNode());
-		modeController.addAction(new SaveAll());
-		modeController.addAction(new SortNodes());
-		modeController.addAction(new SplitNode());
+        AFreeplaneAction[] actionsToAddTwo = new AFreeplaneAction[]{
+            new IconSelectionPlugin(),
+            new NewParentNode(),
+            new SaveAll(),
+            new SortNodes(),
+            new SplitNode()    
+        };
+
+        modeActionAddition(actionsToAddTwo);
+		// modeController.addAction(new IconSelectionPlugin());
+		// modeController.addAction(new NewParentNode());
+		// modeController.addAction(new SaveAll());
+		// modeController.addAction(new SortNodes());
+		// modeController.addAction(new SplitNode());
 		new ChangeNodeLevelController(modeController);
 		NodeHistory.install(modeController);
-		modeController.addAction(new ImportXmlFile());
-		modeController.addAction(new ImportMindmanagerFiles());
+
+        modeActionAddition(new AFreeplaneAction[]{new ImportXmlFile(), new ImportMindmanagerFiles()});
+		// modeController.addAction(new ImportXmlFile());
+		// modeController.addAction(new ImportMindmanagerFiles());
 	}
 
 	private JComponent createAttributesPanel() {
