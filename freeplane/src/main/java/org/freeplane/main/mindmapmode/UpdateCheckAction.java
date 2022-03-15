@@ -285,6 +285,18 @@ class UpdateCheckAction extends AFreeplaneAction {
 		}
 	}
 
+    private void addItemsToGridBag(final GridBagConstraints gBag, final JPanel gPane, Component[] pComp){
+        gBag.gridx = 0;
+		gPane.add(pComp[0],gBag);
+		gBag.gridx = 1;
+		gPane.add(pComp[1], gBag);
+		gBag.gridx = 2;
+		gPane.add(pComp[2], gBag);
+		gBag.gridx = 3;
+		gPane.add(pComp[3], gBag);
+		gBag.gridx = 4;
+		gPane.add(pComp[4], gBag);
+    }
 
 	private int showUpdateDialog(final String info, final FreeplaneVersion freeplaneLatestVersion, final String history, String language) {
 		
@@ -328,19 +340,23 @@ class UpdateCheckAction extends AFreeplaneAction {
 		installedVersionHeader.setBorder(paddingBorder);
 		latestVersionHeader.setBorder(paddingBorder);
 
+        Component[] paneComponents = new Component[] {componentHeader, installedVersionHeader, latestVersionHeader, emptyLabel, emptyLabel};
+        
+
 		// adding headers
         c.gridy = 0;
         
-        c.gridx = 0;
-		gridPane.add(componentHeader, c);
-		c.gridx = 1;
-		gridPane.add(installedVersionHeader, c);
-		c.gridx = 2;
-		gridPane.add(latestVersionHeader, c);
-		c.gridx = 3;
-		gridPane.add(emptyLabel, c);
-		c.gridx = 4;
-		gridPane.add(emptyLabel, c);
+        addItemsToGridBag(c, gridPane, paneComponents);
+        // c.gridx = 0;
+		// gridPane.add(componentHeader, c);
+		// c.gridx = 1;
+		// gridPane.add(installedVersionHeader, c);
+		// c.gridx = 2;
+		// gridPane.add(latestVersionHeader, c);
+		// c.gridx = 3;
+		// gridPane.add(emptyLabel, c);
+		// c.gridx = 4;
+		// gridPane.add(emptyLabel, c);
         
 		// first row : freeplane
         c.gridy = 1;
@@ -377,16 +393,26 @@ class UpdateCheckAction extends AFreeplaneAction {
 		changelogButton.setEnabled(needsUpdate);
 		updateButton.setEnabled(needsUpdate);
 
-		c.gridx = 0;
-		gridPane.add(freeplaneLabel, c);
-		c.gridx = 1;
-		gridPane.add(freeplaneInstalledVersionLabel, c);
-		c.gridx = 2;
-		gridPane.add(freeplaneLatestVersionLabel, c);
-		c.gridx = 3;
-		gridPane.add(changelogButton, c);
-		c.gridx = 4;
-		gridPane.add(updateButton, c);
+
+
+        paneComponents[0] = freeplaneLabel;
+        paneComponents[1] = freeplaneInstalledVersionLabel;
+        paneComponents[2] = freeplaneLatestVersionLabel;
+        paneComponents[3] = changelogButton;
+        paneComponents[4] = updateButton;
+
+        addItemsToGridBag(c, gridPane, paneComponents);
+
+		// c.gridx = 0;
+		// gridPane.add(freeplaneLabel, c);
+		// c.gridx = 1;
+		// gridPane.add(freeplaneInstalledVersionLabel, c);
+		// c.gridx = 2;
+		// gridPane.add(freeplaneLatestVersionLabel, c);
+		// c.gridx = 3;
+		// gridPane.add(changelogButton, c);
+		// c.gridx = 4;
+		// gridPane.add(updateButton, c);
 		
 
 		final List<AddOnProperties> installedAddOns = AddOnsController.getController().getInstalledAddOns();
