@@ -1,5 +1,18 @@
 package org.freeplane.plugin.jsyntaxpane;
 
+import de.sciss.syntaxpane.SyntaxDocument;
+import de.sciss.syntaxpane.Token;
+import de.sciss.syntaxpane.actions.ActionUtils;
+import de.sciss.syntaxpane.components.SyntaxComponent;
+import de.sciss.syntaxpane.util.Configuration;
+import org.freeplane.core.util.TextUtils;
+import org.freeplane.features.map.MapController;
+import org.freeplane.features.map.NodeModel;
+import org.freeplane.features.mode.Controller;
+
+import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
@@ -8,22 +21,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.JEditorPane;
-import javax.swing.SwingUtilities;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-
-import org.freeplane.core.util.TextUtils;
-import org.freeplane.features.map.MapController;
-import org.freeplane.features.map.NodeModel;
-import org.freeplane.features.mode.Controller;
-
-import de.sciss.syntaxpane.SyntaxDocument;
-import de.sciss.syntaxpane.Token;
-import de.sciss.syntaxpane.actions.ActionUtils;
-import de.sciss.syntaxpane.components.SyntaxComponent;
-import de.sciss.syntaxpane.util.Configuration;
 
 public class NodeIdHighLighter implements SyntaxComponent, CaretListener {
 	private final Pattern nodeIdPattern = Pattern.compile("(ID_\\d+)|(\"ID_\\d+\")");
@@ -127,7 +124,6 @@ public class NodeIdHighLighter implements SyntaxComponent, CaretListener {
 		handle(editor.getCaretPosition());
 		status = Status.INSTALLING;
 		addWindowListener();
-//		addFocusListener();
 	}
 	private void addWindowListener() {
 		pane.addFocusListener(new FocusAdapter() {
@@ -144,21 +140,6 @@ public class NodeIdHighLighter implements SyntaxComponent, CaretListener {
             }
 		});
 	}
-
-//	private void addFocusListener() {
-//		class NodeIdHighLightFocusListener extends FocusAdapter {
-//			public void focusLost(FocusEvent e) {
-//				deHighlight();
-//			}
-//		}
-//		final FocusListener[] focusListeners = pane.getFocusListeners();
-//		for (int i = 0; i < focusListeners.length; i++) {
-//			if (focusListeners[i] instanceof NodeIdHighLightFocusListener) {
-//				return;
-//			}
-//		}
-//		pane.addFocusListener(new NodeIdHighLightFocusListener());
-//	}
 
 	@Override
 	public void deinstall(JEditorPane editor) {
