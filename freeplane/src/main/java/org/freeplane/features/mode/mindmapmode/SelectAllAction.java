@@ -26,7 +26,7 @@ import org.freeplane.features.map.NodeModel;
 import org.freeplane.features.mode.Controller;
 
 /** */
-class SelectAllAction extends AMultipleNodeAction {
+public class SelectAllAction extends AMultipleNodeAction {
 	/**
 	 * 
 	 */

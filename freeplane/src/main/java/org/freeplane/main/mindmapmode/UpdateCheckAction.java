@@ -1,33 +1,5 @@
 package org.freeplane.main.mindmapmode;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JViewport;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.border.Border;
-
 import org.freeplane.core.resources.ResourceController;
 import org.freeplane.core.ui.AFreeplaneAction;
 import org.freeplane.core.ui.components.UITools;
@@ -42,12 +14,23 @@ import org.freeplane.features.ui.ViewController;
 import org.freeplane.main.addons.AddOnProperties;
 import org.freeplane.main.addons.AddOnsController;
 
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Checks for updates.
  * 
  * @author robert ladstaetter
  */
-class UpdateCheckAction extends AFreeplaneAction {
+public class UpdateCheckAction extends AFreeplaneAction {
 	private static final String UPDATE_AVAILABLE_COMPONENT_KEY = "updateAvailable";
 	private static final String UPDATE_URL = "https://sourceforge.net/projects/freeplane/files/freeplane%20stable/";
     private static final int VISIBLE_ADDON_ROWS = 8;
@@ -285,19 +268,6 @@ class UpdateCheckAction extends AFreeplaneAction {
 		}
 	}
 
-    private void addItemsToGridBag(final GridBagConstraints gBag, final JPanel gPane, Component[] pComp){
-        gBag.gridx = 0;
-		gPane.add(pComp[0],gBag);
-		gBag.gridx = 1;
-		gPane.add(pComp[1], gBag);
-		gBag.gridx = 2;
-		gPane.add(pComp[2], gBag);
-		gBag.gridx = 3;
-		gPane.add(pComp[3], gBag);
-		gBag.gridx = 4;
-		gPane.add(pComp[4], gBag);
-    }
-
 	private int showUpdateDialog(final String info, final FreeplaneVersion freeplaneLatestVersion, final String history, String language) {
 		
 		// dialog layout
@@ -319,10 +289,10 @@ class UpdateCheckAction extends AFreeplaneAction {
 		final Border paddingBorder = BorderFactory.createEmptyBorder(0, 10, 10, 0);
 		gridPane.setBorder(BorderFactory.createCompoundBorder(paddingBorder,paddingBorder));
 		
-		final GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
+		final GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         int gridRow = 0;
-        c.weightx = 0.5;
+        gridConstraints.weightx = 0.5;
         
 		
 		// table headers
@@ -341,25 +311,14 @@ class UpdateCheckAction extends AFreeplaneAction {
 		latestVersionHeader.setBorder(paddingBorder);
 
         Component[] paneComponents = new Component[] {componentHeader, installedVersionHeader, latestVersionHeader, emptyLabel, emptyLabel};
-        
 
 		// adding headers
-        c.gridy = 0;
+        gridConstraints.gridy = 0;
         
-        addItemsToGridBag(c, gridPane, paneComponents);
-        // c.gridx = 0;
-		// gridPane.add(componentHeader, c);
-		// c.gridx = 1;
-		// gridPane.add(installedVersionHeader, c);
-		// c.gridx = 2;
-		// gridPane.add(latestVersionHeader, c);
-		// c.gridx = 3;
-		// gridPane.add(emptyLabel, c);
-		// c.gridx = 4;
-		// gridPane.add(emptyLabel, c);
-        
+        addItemsToGridBag(gridConstraints, gridPane, paneComponents);
+
 		// first row : freeplane
-        c.gridy = 1;
+        gridConstraints.gridy = 1;
         
 		final JLabel freeplaneLabel = new JLabel("Freeplane");
 		final FreeplaneVersion freeplaneLocalVersion = FreeplaneVersion.getVersion();
@@ -401,19 +360,7 @@ class UpdateCheckAction extends AFreeplaneAction {
         paneComponents[3] = changelogButton;
         paneComponents[4] = updateButton;
 
-        addItemsToGridBag(c, gridPane, paneComponents);
-
-		// c.gridx = 0;
-		// gridPane.add(freeplaneLabel, c);
-		// c.gridx = 1;
-		// gridPane.add(freeplaneInstalledVersionLabel, c);
-		// c.gridx = 2;
-		// gridPane.add(freeplaneLatestVersionLabel, c);
-		// c.gridx = 3;
-		// gridPane.add(changelogButton, c);
-		// c.gridx = 4;
-		// gridPane.add(updateButton, c);
-		
+        addItemsToGridBag(gridConstraints, gridPane, paneComponents);
 
 		final List<AddOnProperties> installedAddOns = AddOnsController.getController().getInstalledAddOns();
 		gridRow = 3;
@@ -440,20 +387,20 @@ class UpdateCheckAction extends AFreeplaneAction {
 			}
 			
 			final JLabel addOnLabel = new JLabel(TextUtils.getText("addons." + addOnProperties.getName()));
-			c.gridx = 0;
-			c.gridy = gridRow;
-			gridPane.add(addOnLabel, c);
+			gridConstraints.gridx = 0;
+			gridConstraints.gridy = gridRow;
+			gridPane.add(addOnLabel, gridConstraints);
 			
-			c.gridx = 1;
-			c.gridy = gridRow;
-			gridPane.add(addOnInstalledVersionLabel, c);
+			gridConstraints.gridx = 1;
+			gridConstraints.gridy = gridRow;
+			gridPane.add(addOnInstalledVersionLabel, gridConstraints);
 			
-			c.gridx = 2;
-			c.gridy = gridRow;
-			gridPane.add(addOnLatestVersionLabel, c);
+			gridConstraints.gridx = 2;
+			gridConstraints.gridy = gridRow;
+			gridPane.add(addOnLatestVersionLabel, gridConstraints);
 			
-			c.gridx = 3;
-			c.gridy = gridRow;
+			gridConstraints.gridx = 3;
+			gridConstraints.gridy = gridRow;
 			changelogButton = new JButton(TextUtils.getText("updater.viewChangelog"));
 			changelogButton.addActionListener(openUrlListener);
 			if (addOnProperties.getLatestVersionChangelogUrl() != null) {
@@ -461,11 +408,11 @@ class UpdateCheckAction extends AFreeplaneAction {
 			} else if (addOnProperties.getUpdateUrl() != null) {
 				changelogButton.setActionCommand(String.valueOf(addOnProperties.getUpdateUrl()));
 			}
-			gridPane.add(changelogButton,c );
+			gridPane.add(changelogButton,gridConstraints );
 			changelogButton.setEnabled(needsUpdate);
 			
-			c.gridx = 4;
-			c.gridy = gridRow;
+			gridConstraints.gridx = 4;
+			gridConstraints.gridy = gridRow;
 			updateButton = new JButton(TextUtils.getText("updater.goToDownload"));
 			updateButton.addActionListener(openUrlListener);
 			if (addOnProperties.getLatestVersionDownloadUrl() != null) {
@@ -473,7 +420,7 @@ class UpdateCheckAction extends AFreeplaneAction {
 			} else if (addOnProperties.getHomepage() != null) {
 				updateButton.setActionCommand(addOnProperties.getHomepage().toString());
 			}
-			gridPane.add(updateButton, c);
+			gridPane.add(updateButton, gridConstraints);
 			updateButton.setEnabled(needsUpdate);
 
 			gridRow++;
@@ -529,6 +476,18 @@ class UpdateCheckAction extends AFreeplaneAction {
         }
     }
 
+	public static void addItemsToGridBag(final GridBagConstraints gBag, final JPanel gPane, Component[] pComp){
+		gBag.gridx = 0;
+		gPane.add(pComp[0],gBag);
+		gBag.gridx = 1;
+		gPane.add(pComp[1], gBag);
+		gBag.gridx = 2;
+		gPane.add(pComp[2], gBag);
+		gBag.gridx = 3;
+		gPane.add(pComp[3], gBag);
+		gBag.gridx = 4;
+		gPane.add(pComp[4], gBag);
+	}
 
 	private ActionListener openUrlListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
