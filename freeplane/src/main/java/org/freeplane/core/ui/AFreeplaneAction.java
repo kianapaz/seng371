@@ -52,7 +52,6 @@ public abstract class AFreeplaneAction extends AbstractAction implements IFreepl
 		LabelAndMnemonicSetter.setLabelAndMnemonic(this, rawText);
 		setIcon(getIconKey());
 		setTooltip(getTooltipKey());
-		//		System.out.println(key);
 	}
 
 	public void addConstraint(UserRoleConstraint constraint) {

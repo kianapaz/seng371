@@ -1,14 +1,12 @@
 package org.freeplane.main.application;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
+import java.awt.*;
 
-class BorderLayoutWithVisibleCenterComponent extends BorderLayout {
+public class BorderLayoutWithVisibleCenterComponent extends BorderLayout {
 
     private static final long serialVersionUID = 8414055824538038007L;
 
-    private void cardinalAdjustments(Component[] cardinals, int[] cardinalValues, int minimumCenterValue, Component centerComp, boolean northSouth){
+    public static void cardinalAdjustments(Component[] cardinals, int[] cardinalValues, int minimumCenterValue, Component centerComp, boolean northSouth){
         int maximumVal = minimumCenterValue * 9;
 
         if(cardinalValues[0] > 0 || cardinalValues[1] > 0){
@@ -64,21 +62,9 @@ class BorderLayoutWithVisibleCenterComponent extends BorderLayout {
             int[] northSouthValues = new int[] {northHeight, southHeight};
             cardinalAdjustments(northSouthObj, northSouthValues, minimumCenterHeight, center, true);
 
-            // if(northHeight > 0 || southHeight > 0) {
-            //     int newNorthHeight = maximumEdgeHeight * northHeight / (northHeight + southHeight);
-            //     int northX = north != null ? north.getX() : center.getX();
-            //     int northY = north != null ? north.getY() : center.getY();
-            //     if(north != null)
-            //         north.setBounds(northX, northY, north.getWidth(), newNorthHeight);
-            //     center.setBounds(center.getX(), northY + newNorthHeight, center.getWidth(), minimumCenterHeight);
-            //     if(south != null) {
-            //         int newSouthHeight = maximumEdgeHeight * southHeight / (northHeight + southHeight);
-            //         south.setBounds(south.getX(), northY + newNorthHeight + minimumCenterHeight, south.getWidth(), newSouthHeight);
-            //     }
-            // }
         }
+
         if (centerWidth <  minimumCenterWidth) {
-            // int maximumEdgeWidth = minimumCenterWidth * 9;
             Component west = getLayoutComponent(WEST);
             int westWidth = west != null ? west.getWidth() : 0;
             Component east = getLayoutComponent(EAST);
@@ -88,18 +74,6 @@ class BorderLayoutWithVisibleCenterComponent extends BorderLayout {
             int[] westEastValues = new int[] {westWidth, eastWidth};
             cardinalAdjustments(westEastObj, westEastValues, minimumCenterWidth, center, false);
 
-            // if(westWidth > 0 || eastWidth > 0) {
-            //     int newWestWidth = maximumEdgeWidth * westWidth / (westWidth + eastWidth);
-            //     int westX = west != null ? west.getX() : center.getX();
-            //     int westY = west != null ? west.getY() : center.getY();
-            //     if(west != null)
-            //         west.setBounds(westX, westY, newWestWidth, west.getHeight());
-            //     center.setBounds(westX + newWestWidth, center.getY(), minimumCenterWidth, center.getHeight());
-            //     if(east != null) {
-            //         int newEastWidth = maximumEdgeWidth * eastWidth / (westWidth + eastWidth);
-            //         east.setBounds(westX + newWestWidth + minimumCenterWidth, east.getY(),  newEastWidth, east.getHeight());
-            //     }
-            // }
         }
     }
 
