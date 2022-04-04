@@ -39,6 +39,7 @@ import org.freeplane.core.resources.OptionPanelController;
 import org.freeplane.core.resources.ResourceController;
 import org.freeplane.core.resources.components.IValidator;
 import org.freeplane.core.util.LogUtils;
+import org.freeplane.features.filter.ToggleDarkBackgroundAction;
 import org.freeplane.features.map.IMapLifeCycleListener;
 import org.freeplane.features.map.IMapSelection;
 import org.freeplane.features.map.IMapSelection.NodePosition;
@@ -79,6 +80,7 @@ public class Controller extends AController implements FreeplaneActions, IMapLif
 		extensionContainer = new ExtensionContainer(new HashMap<Class<? extends IExtension>, IExtension>());
 		
 		addAction(new MoveToRootAction());
+		addAction(new ToggleDarkBackgroundAction());
 		Arrays.stream(NodePosition.values()).forEach(p -> addAction(new MoveSelectedNodeAction(p)));
 		Arrays.stream(FreeScrollAction.Direction.values()).forEach(d -> addAction(new FreeScrollAction(d)));
 		

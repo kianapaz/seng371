@@ -71,6 +71,7 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
 
 import org.freeplane.core.resources.ResourceController;
 import org.freeplane.core.resources.TranslatedObject;
+import org.freeplane.features.filter.ToggleDarkBackgroundAction;
 import org.freeplane.core.ui.FixedBasicComboBoxEditor;
 import org.freeplane.core.ui.IUserInputListenerFactory;
 import org.freeplane.core.ui.components.ContainerComboBoxEditor;
@@ -158,11 +159,13 @@ abstract public class FrameController implements ViewController {
 	final private JComponent toolbarPanel[];
 	final private String propertyKeyPrefix;
 	private static boolean uiResourcesInitialized = false;
+	private static boolean backgroundToggledBlack = false;
 	private static Icon textIcon;
 	private static Icon numberIcon;
 	private static Icon dateIcon;
 	private static Icon dateTimeIcon;
 	private static Icon linkIcon;
+
 	static private void initializeUiResources(){
 		if(uiResourcesInitialized == false) {
 			uiResourcesInitialized = true;
@@ -302,6 +305,16 @@ abstract public class FrameController implements ViewController {
 		}
 		return false;
 
+	}
+
+	public void toggleBackground(Color newColor){
+		final JFrame frame = (JFrame) getCurrentRootComponent();
+		backgroundToggledBlack = newColor.equals(Color.BLACK);
+		frame.getContentPane().setBackground(newColor);
+	}
+
+	public boolean isBackgroundBlack(){
+		return backgroundToggledBlack;
 	}
 
 	@Override
