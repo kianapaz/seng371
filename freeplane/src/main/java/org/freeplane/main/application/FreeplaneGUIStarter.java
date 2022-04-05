@@ -54,6 +54,7 @@ import org.freeplane.features.explorer.MapExplorerConditionController;
 import org.freeplane.features.filter.FilterController;
 import org.freeplane.features.filter.FreeSelectNodeAction;
 import org.freeplane.features.filter.NextNodeAction;
+import org.freeplane.features.ui.ToggleDarkBackgroundAction;
 import org.freeplane.features.filter.NextPresentationItemAction;
 import org.freeplane.features.format.FormatController;
 import org.freeplane.features.format.ScannerController;

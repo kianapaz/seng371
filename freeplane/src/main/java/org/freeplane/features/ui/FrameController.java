@@ -158,11 +158,14 @@ abstract public class FrameController implements ViewController {
 	final private JComponent toolbarPanel[];
 	final private String propertyKeyPrefix;
 	private static boolean uiResourcesInitialized = false;
+	private static boolean backgroundToggledBlack = false;
+	private static String currentLookandFeel = "default";
 	private static Icon textIcon;
 	private static Icon numberIcon;
 	private static Icon dateIcon;
 	private static Icon dateTimeIcon;
 	private static Icon linkIcon;
+
 	static private void initializeUiResources(){
 		if(uiResourcesInitialized == false) {
 			uiResourcesInitialized = true;
@@ -183,6 +186,7 @@ abstract public class FrameController implements ViewController {
 		this.mapViewManager = mapViewManager;
 		this.propertyKeyPrefix = propertyKeyPrefix;
 		statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 0));
+		statusPanel.setBackground(Color.black);
 		UIComponentVisibilityDispatcher.install(statusPanel, propertyKeyPrefix + "statusVisible");
 		status = new JLabel();
 		status.setBorder(BorderFactory.createEtchedBorder());
@@ -199,6 +203,7 @@ abstract public class FrameController implements ViewController {
 		statusTextCleaner.setRepeats(false);
 		//		this.controller = controller;
 		controller.setViewController(this);
+		controller.addAction(new ToggleDarkBackgroundAction(this));
 		controller.addAction(new ToggleFullScreenAction(this));
 		controller.addAction(new ToggleMenubarAction(this));
 		controller.addAction(new ToggleScrollbarsAction(this));
@@ -302,6 +307,11 @@ abstract public class FrameController implements ViewController {
 		}
 		return false;
 
+	}
+
+
+	public static boolean isBackgroundBlack(){
+		return backgroundToggledBlack;
 	}
 
 	@Override
@@ -595,8 +605,22 @@ abstract public class FrameController implements ViewController {
 			child.setVisible(true);
 	}
 
+	public static String getCurrentLookandFeel(){
+		return currentLookandFeel;
+	}
+
+	public static void toggleBackground(final String newLook){
+		backgroundToggledBlack = newLook.equals(DARCULA_LAF_CLASS_NAME);
+		setLookAndFeel(newLook);
+	}
+
+	public static void setLookAndFeel(final String lookAndFeel){
+			currentLookandFeel = lookAndFeel;
+	}
+
 	public static void setLookAndFeel(final String lookAndFeel, boolean supportHidpi) {
 		if(DARCULA_LAF_CLASS_NAME.equals(lookAndFeel)) {
+			currentLookandFeel = DARCULA_LAF_CLASS_NAME;
 			setLookAndFeel(FlatDarculaLaf.class.getName(), supportHidpi);
 			return;
 		}
@@ -611,6 +635,7 @@ abstract public class FrameController implements ViewController {
 			if (lookAndFeel.equals("default")) {
 			    boolean lookAndFeelSet = false;
 			    if(! lookAndFeelSet) {
+					currentLookandFeel = "default";
 			        String lookAndFeelClassName = UIManager.getSystemLookAndFeelClassName();
 			        UIManager.setLookAndFeel(lookAndFeelClassName);
 			        fixLookAndFeelUI();

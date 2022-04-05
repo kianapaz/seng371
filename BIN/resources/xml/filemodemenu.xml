@@ -20,6 +20,7 @@
 			</Entry>
 		</Entry>
 		<Entry name="view">
+			<Entry name="ToggleDarkBackgroundAction" />
 			<Entry name="zoom">
 				<Entry accelerator="alt UP" name="ZoomInAction" />
 				<Entry accelerator="alt DOWN" name="ZoomOutAction" />
