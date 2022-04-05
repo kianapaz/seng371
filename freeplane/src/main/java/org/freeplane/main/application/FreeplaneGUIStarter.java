@@ -54,7 +54,7 @@ import org.freeplane.features.explorer.MapExplorerConditionController;
 import org.freeplane.features.filter.FilterController;
 import org.freeplane.features.filter.FreeSelectNodeAction;
 import org.freeplane.features.filter.NextNodeAction;
-import org.freeplane.features.filter.ToggleDarkBackgroundAction;
+import org.freeplane.features.ui.ToggleDarkBackgroundAction;
 import org.freeplane.features.filter.NextPresentationItemAction;
 import org.freeplane.features.format.FormatController;
 import org.freeplane.features.format.ScannerController;
@@ -238,7 +238,6 @@ public class FreeplaneGUIStarter implements FreeplaneStarter {
 			LinkController.install();
 			IconController.installConditionControllers();
 			HelpController.install();
-			controller.addAction(new ToggleDarkBackgroundAction());
 			controller.addAction(new NextNodeAction(Direction.FORWARD));
 			controller.addAction(new NextNodeAction(Direction.BACK));
 			controller.addAction(new NextNodeAction(Direction.FORWARD_N_FOLD));
