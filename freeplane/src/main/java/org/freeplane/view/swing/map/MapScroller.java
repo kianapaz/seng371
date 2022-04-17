@@ -85,7 +85,7 @@ public class MapScroller {
 		}
 	}
 
-	private Rectangle calculateOptimalVisibleRectangle() {
+	public Rectangle calculateOptimalVisibleRectangle() {
 		final JViewport viewPort = (JViewport) map.getParent();
 		final Dimension extentSize = viewPort.getExtentSize();
 		final JComponent content = scrolledNode.getContent();
