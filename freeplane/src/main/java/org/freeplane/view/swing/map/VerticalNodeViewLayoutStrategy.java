@@ -248,7 +248,7 @@ public class VerticalNodeViewLayoutStrategy {
 		return childViewIndex + 1 < viewLevels.summaryLevels.length && viewLevels.summaryLevels[childViewIndex + 1] > 0;
 	}
 
-	private int summarizedNodeDistance(final int distance) {
+	public int summarizedNodeDistance(final int distance) {
 		final int defaultVGap = view.getMap().getZoomed(LocationModel.DEFAULT_VGAP.toBaseUnits());
 		if(defaultVGap >= distance)
 			return distance;
