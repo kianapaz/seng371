@@ -68,7 +68,7 @@ abstract public class CloudView {
 			}
 		}
 		return iterativeLevel;
-    }
+	}
 
 	public Color getColor() {
 		return source.getCloudColor();
@@ -144,26 +144,26 @@ abstract public class CloudView {
 	}
 
 	protected Polygon getCoordinates() {
-        final Polygon p = new Polygon();
-        final LinkedList<Point> coordinates = new LinkedList<Point>();
-        source.getCoordinates(coordinates);
-        final ConvexHull hull = new ConvexHull();
-        final Vector<Point> res = hull.calculateHull(coordinates);
-        Point lastPt = null;
-        for (int i = 0; i < res.size(); ++i) {
-            final Point pt = (Point) res.get(i);
-            if(!pt.equals(lastPt)){
-                p.addPoint(pt.x, pt.y);
-                lastPt = pt;
-            }
-        }
-        final Point pt = (Point) res.get(0);
-        p.addPoint(pt.x, pt.y);
-        return p;
+		final Polygon p = new Polygon();
+		final LinkedList<Point> coordinates = new LinkedList<Point>();
+		source.getCoordinates(coordinates);
+		final ConvexHull hull = new ConvexHull();
+		final Vector<Point> res = hull.calculateHull(coordinates);
+		Point lastPt = null;
+		for (int i = 0; i < res.size(); ++i) {
+			final Point pt = res.get(i);
+			if(!pt.equals(lastPt)){
+				p.addPoint(pt.x, pt.y);
+				lastPt = pt;
+			}
+		}
+		final Point pt = res.get(0);
+		p.addPoint(pt.x, pt.y);
+		return p;
 	}
 
 	protected void paintDecoration(Graphics2D g, Graphics2D gstroke){
-	    Polygon p = getCoordinates();
+		Polygon p = getCoordinates();
 		fillPolygon(p, g);
 		double middleDistanceBetweenPoints = calcDistanceBetweenPoints();
 		final int[] xpoints = p.xpoints;
@@ -187,7 +187,7 @@ abstract public class CloudView {
 			dxn = dx / length; /* normalized direction of p0 -> p1 */
 			dyn = dy / length;
 			for (int j = 0;;) {
-				double distanceBetweenPoints = middleDistanceBetweenPoints * random(0.7);
+				double distanceBetweenPoints = middleDistanceBetweenPoints * random(0.7) + 100.2;
 				if (j + 2* distanceBetweenPoints < length) {
 					j += distanceBetweenPoints;
 					x3 = x0 + j * dxn;
@@ -212,30 +212,30 @@ abstract public class CloudView {
 	}
 
 	protected void fillPolygon(final Polygon p, Graphics2D g) {
-	    g.fillPolygon(p);
+		g.fillPolygon(p);
 		g.drawPolygon(p);
-    }
+	}
 
 	protected void paintDecoration(Graphics2D g, Graphics2D gstroke, double x0, double y0, double x1, double y1) {
-			double dx, dy;
-			dx = x1 - x0;
-			dy = y1 - y0;
-			final double length = Math.sqrt(dx * dx + dy * dy);
-			double dxn, dyn;
-			dxn = dx / length;
-			dyn = dy / length;
-			paintDecoration(g, gstroke, x0, y0, x1, y1, dx, dy, dxn, dyn);
-		}
+		double dx, dy;
+		dx = x1 - x0;
+		dy = y1 - y0;
+		final double length = Math.sqrt(dx * dx + dy * dy);
+		double dxn, dyn;
+		dxn = dx / length;
+		dyn = dy / length;
+		paintDecoration(g, gstroke, x0, y0, x1, y1, dx, dy, dxn, dyn);
+	}
 
 	abstract protected void paintDecoration(Graphics2D g, Graphics2D gstroke, double x0, double y0, double x1, double y1,
-                                 double dx, double dy, double dxn, double dyn);
+											double dx, double dy, double dxn, double dyn);
 
-    protected double calcDistanceBetweenPoints() {
-	    final double distanceBetweenPoints = getDistanceToConvexHull();
+	protected double calcDistanceBetweenPoints() {
+		final double distanceBetweenPoints = getDistanceToConvexHull();
 		return distanceBetweenPoints;
-    }
+	}
 
 	protected double random(double min) {
-	    return (min + (1-min) * random.nextDouble());
-    }
+		return (min + (1-min) * random.nextDouble());
+	}
 }

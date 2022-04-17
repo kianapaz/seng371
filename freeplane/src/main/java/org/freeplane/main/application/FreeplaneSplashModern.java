@@ -57,8 +57,8 @@ public class FreeplaneSplashModern extends JWindow {
 		splashResource = ResourceController.getResourceController().getResource(FREEPLANE_SPLASH_PNG);
 		splashImage = new ImageIcon(splashResource);
 		GraphicsConfiguration gc = getGraphicsConfiguration();
-        GraphicsDevice gd = gc.getDevice();
-        int alpha = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT) ? 0 : 255;
+		GraphicsDevice gd = gc.getDevice();
+		int alpha = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT) ? 0 : 255;
 		setBackground(new Color(40, 75, 144, alpha));
 		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		final Dimension labelSize = new Dimension(splashImage.getIconWidth(), splashImage.getIconHeight());
@@ -71,13 +71,13 @@ public class FreeplaneSplashModern extends JWindow {
 			return;
 		}
 		try (InputStream fontInputStream= ResourceController.getResourceController()
-		        .getResource("/fonts/gentium-subset.ttf").openStream()){
+				.getResource("/fonts/gentium-subset.ttf").openStream()){
 			versionTextFont = Font.createFont(Font.TRUETYPE_FONT, fontInputStream);
 		}
 		catch (final Exception e) {
 			versionTextFont = new Font("Arial", Font.PLAIN, 12);
 		}
-    }
+	}
 
 	private final ImageIcon splashImage;
 	private final URL splashResource;
@@ -95,17 +95,17 @@ public class FreeplaneSplashModern extends JWindow {
 		final String versionString = getVersionText(version);
 		g2.setColor(Color.WHITE);
 		createVersionTextFont();
-		final float versionFontSize= 20;
+		final float versionFontSize= 40;
 		g2.setFont(versionTextFont.deriveFont(versionFontSize));
 		int versionStringWidth = g2.getFontMetrics().stringWidth(versionString);
-		int distanceToRightEdge = 48;
+		int distanceToRightEdge = 78;
 		final int xCoordinate = splashImage.getIconWidth() - versionStringWidth - distanceToRightEdge;
-		final int yCoordinate = 28;
+		final int yCoordinate = 48;
 		g2.drawString(versionString, xCoordinate, yCoordinate);
 	}
 
 	private String getVersionText(final FreeplaneVersion version) {
-	    final String freeplaneNumber = version.numberToString();
+		final String freeplaneNumber = version.numberToString();
 		final String status = version.getType().toLowerCase();
 		if("".equals(status))
 			return freeplaneNumber;
@@ -113,7 +113,7 @@ public class FreeplaneSplashModern extends JWindow {
 			final String versionString = freeplaneNumber + " " + status;
 			return versionString;
 		}
-    }
+	}
 
 	@Override
 	public void setVisible(final boolean b) {
@@ -124,8 +124,8 @@ public class FreeplaneSplashModern extends JWindow {
 	}
 
 	public void paintImmediately() {
-	    ((JComponent) getRootPane()).paintImmediately(0, 0, getWidth(), getHeight());
-    }
+		((JComponent) getRootPane()).paintImmediately(0, 0, getWidth(), getHeight());
+	}
 
 	static public void main(String[] args){
 		ApplicationResourceController applicationResourceController = new ApplicationResourceController();

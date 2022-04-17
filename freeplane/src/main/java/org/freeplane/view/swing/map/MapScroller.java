@@ -14,10 +14,10 @@ import org.freeplane.features.map.IMapSelection.NodePosition;
 import org.freeplane.features.map.NodeModel;
 import org.freeplane.features.ui.ViewController;
 
-class MapScroller {
+public class MapScroller {
 
 	private static final String KEEP_SELECTED_NODE_VISIBLE_AFTER_ZOOM_PROPERTY = "keepSelectedNodeVisibleAfterZoom";
-    private NodeView anchor;
+	private NodeView anchor;
 	private Point anchorContentLocation;
 	private float anchorHorizontalPoint;
 	private float anchorVerticalPoint;
@@ -91,77 +91,77 @@ class MapScroller {
 		final JComponent content = scrolledNode.getContent();
 		Point contentLocation = new Point();
 		UITools.convertPointToAncestor(content, contentLocation, map);
-		final Rectangle rect = new Rectangle(contentLocation.x + content.getWidth() / 2 - extentSize.width / 2,
-				contentLocation.y + content.getHeight() / 2 - extentSize.height
-				/ 2, extentSize.width, extentSize.height);
+		final Rectangle rect = new Rectangle(contentLocation.x + content.getWidth() / 4 - extentSize.width / 4,
+				contentLocation.y + content.getHeight() / 4 - extentSize.height
+						/ 4, extentSize.width, extentSize.height);
 
-		final int distanceToMargin = (extentSize.width - content.getWidth()) / 2 - 10;
-		final int distanceToMarginY = (extentSize.height - content.getHeight()) / 2 - 10;
+		final int distanceToMargin = (extentSize.width - content.getWidth()) / 5 - 50;
+		final int distanceToMarginY = (extentSize.height - content.getHeight()) / 5 - 50;
 
 		switch (scrollingDirective) {
-		case SCROLL_NODE_TO_TOP_LEFT_CORNER:
-			rect.x += distanceToMargin;
-			rect.y += distanceToMarginY;
-			break;
+			case SCROLL_NODE_TO_TOP_LEFT_CORNER:
+				rect.x += distanceToMargin + 5;
+				rect.y += distanceToMarginY + 5;
+				break;
 
-		case SCROLL_NODE_TO_BOTTOM_LEFT_CORNER:
-			rect.x += distanceToMargin;
-			rect.y -= distanceToMarginY;
-			break;
+			case SCROLL_NODE_TO_BOTTOM_LEFT_CORNER:
+				rect.x += distanceToMargin + 5;
+				rect.y -= distanceToMarginY + 5;
+				break;
 
-		case SCROLL_NODE_TO_TOP_RIGHT_CORNER:
-			rect.y += distanceToMarginY;
-			rect.x -= distanceToMargin;
-			break;
+			case SCROLL_NODE_TO_TOP_RIGHT_CORNER:
+				rect.y += distanceToMarginY + 5;
+				rect.x -= distanceToMargin + 5;
+				break;
 
-		case SCROLL_NODE_TO_BOTTOM_RIGHT_CORNER:
-			rect.x -= distanceToMargin;
-			rect.y -= distanceToMarginY;
-			break;
+			case SCROLL_NODE_TO_BOTTOM_RIGHT_CORNER:
+				rect.x -= distanceToMargin + 5;
+				rect.y -= distanceToMarginY + 5;
+				break;
 
-		case SCROLL_NODE_TO_LEFT_MARGIN: 
-			rect.x += distanceToMargin;
-			break;
+			case SCROLL_NODE_TO_LEFT_MARGIN:
+				rect.x += distanceToMargin + 5;
+				break;
 
-		case SCROLL_NODE_TO_TOP_MARGIN:
-			rect.y += distanceToMarginY;
-			break;
+			case SCROLL_NODE_TO_TOP_MARGIN:
+				rect.y += distanceToMarginY + 5;
+				break;
 
-		case SCROLL_NODE_TO_RIGHT_MARGIN:
-			rect.x -= distanceToMargin;
-			break;
+			case SCROLL_NODE_TO_RIGHT_MARGIN:
+				rect.x -= distanceToMargin + 5;
+				break;
 
-		case SCROLL_NODE_TO_BOTTOM_MARGIN:
-			rect.y -= distanceToMarginY;
-			break;
+			case SCROLL_NODE_TO_BOTTOM_MARGIN:
+				rect.y -= distanceToMarginY + 5;
+				break;
 
-		case SCROLL_TO_BEST_ROOT_POSITION: 
-			final Rectangle innerBounds = map.getInnerBounds();
-			if(innerBounds.width <= extentSize.width && map.getModeController().shouldCenterCompactMaps()){
-				rect.x = innerBounds.x - (extentSize.width - innerBounds.width) / 2;
-			}
-			else {
-				NodeView root = map.getRoot();
-				final boolean outlineLayoutSet = map.isOutlineLayoutSet();
-				if(!outlineLayoutSet) {
-					boolean scrollToTheLeft = false;
-					final List<NodeModel> children = root.getModel().getChildren();
-					if(! children.isEmpty()){
-						scrollToTheLeft = true;
-						for(NodeModel node :children) {
-							if(node.isLeft()){
-								scrollToTheLeft = false;
-								break;
+			case SCROLL_TO_BEST_ROOT_POSITION:
+				final Rectangle innerBounds = map.getInnerBounds();
+				if(innerBounds.width <= extentSize.width && map.getModeController().shouldCenterCompactMaps()){
+					rect.x = innerBounds.x - (extentSize.width - innerBounds.width) / 2  + 5;
+				}
+				else {
+					NodeView root = map.getRoot();
+					final boolean outlineLayoutSet = map.isOutlineLayoutSet();
+					if(!outlineLayoutSet) {
+						boolean scrollToTheLeft = false;
+						final List<NodeModel> children = root.getModel().getChildren();
+						if(! children.isEmpty()){
+							scrollToTheLeft = true;
+							for(NodeModel node :children) {
+								if(node.isLeft()){
+									scrollToTheLeft = false;
+									break;
+								}
 							}
 						}
+						if(scrollToTheLeft)
+							rect.x += (extentSize.width - content.getWidth()) / 2 ;
 					}
-					if(scrollToTheLeft)
-						rect.x += (extentSize.width - content.getWidth()) / 2 - 10;
 				}
-			}
-			break;
-		default:
-			break;
+				break;
+			default:
+				break;
 		}
 		return rect;
 	}
@@ -181,8 +181,8 @@ class MapScroller {
 	}
 
 	void setAnchorView(final NodeView view) {
-	    if(anchor != view)
-	        anchor = view;
+		if(anchor != view)
+			anchor = view;
 	}
 
 	private Point getAnchorCenterPoint() {
@@ -233,13 +233,13 @@ class MapScroller {
 		if (extraWidth < 0) {
 			width -= extraWidth;
 			nodeContent.scrollRectToVisible(new Rectangle(-HORIZ_SPACE + extraWidth, -VERT_SPACE, width + HORIZ_SPACE2,
-			    nodeContent.getHeight() + VERT_SPACE2));
+					nodeContent.getHeight() + VERT_SPACE2));
 		}
 		else {
 			width += extraWidth;
 			nodeContent.scrollRectToVisible(new Rectangle(-HORIZ_SPACE, -VERT_SPACE, width + HORIZ_SPACE2, nodeContent
-			    .getHeight()
-			        + VERT_SPACE2));
+					.getHeight()
+					+ VERT_SPACE2));
 		}
 	}
 
@@ -268,9 +268,9 @@ class MapScroller {
 			vp.setViewPosition(viewPosition);
 		}
 
-		if(scrolledNode != null && 
-		        (scrollingDirective != ScrollingDirective.ANCHOR 
-		        || ResourceController.getResourceController().getBooleanProperty(KEEP_SELECTED_NODE_VISIBLE_AFTER_ZOOM_PROPERTY)))
+		if(scrolledNode != null &&
+				(scrollingDirective != ScrollingDirective.ANCHOR
+						|| ResourceController.getResourceController().getBooleanProperty(KEEP_SELECTED_NODE_VISIBLE_AFTER_ZOOM_PROPERTY)))
 			scrollNodeToVisible(scrolledNode, extraWidth);
 		scrolledNode = null;
 		scrollingDirective = ScrollingDirective.DONE;
@@ -325,7 +325,7 @@ class MapScroller {
 enum ScrollingDirective {
 	SCROLL_NODE_TO_CENTER(NodePosition.CENTER),
 	SCROLL_NODE_TO_LEFT_MARGIN(NodePosition.LEFT),
-	SCROLL_NODE_TO_RIGHT_MARGIN(NodePosition.RIGHT), 
+	SCROLL_NODE_TO_RIGHT_MARGIN(NodePosition.RIGHT),
 	SCROLL_NODE_TO_TOP_MARGIN(NodePosition.TOP),
 	SCROLL_NODE_TO_BOTTOM_MARGIN(NodePosition.BOTTOM),
 	SCROLL_NODE_TO_TOP_LEFT_CORNER(NodePosition.TOP_LEFT),

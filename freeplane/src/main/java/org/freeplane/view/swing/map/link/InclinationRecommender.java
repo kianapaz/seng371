@@ -26,8 +26,9 @@ public class InclinationRecommender {
         if (!connectorView.isSourceVisible() || !connectorView.isTargetVisible() || source.equals(target)) {
             recommendedLength = (int) (UITools.FONT_SCALE_FACTOR * 100);
         } else
-            recommendedLength = Math.max(40, (int)(source.getLinkPoint(null).distance(target.getLinkPoint(null)) / connectorView.getZoom()));
-        recommendedHeight = (source != null && source.isContentVisible() ? source : target).getMainView().getHeight();
+            recommendedLength = Math.max(40, (int)(source.getLinkPoint(null).distance(target.getLinkPoint(null))
+                    / connectorView.getZoom())) + 40;
+        recommendedHeight = (source != null && source.isContentVisible() ? source : target).getMainView().getHeight() + 40;
         selfLink = source == target;
     }
 

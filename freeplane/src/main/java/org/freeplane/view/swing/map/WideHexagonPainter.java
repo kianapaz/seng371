@@ -27,9 +27,9 @@ import java.awt.Polygon;
 import org.freeplane.features.nodestyle.NodeGeometryModel;
 
 class WideHexagonPainter extends VariableInsetsPainter {
-	private static final double VERTICAL_MARGIN_FACTOR = Math.sqrt(2);
-	private static final double UNIFORM_HEIGHT_TO_WIDTH_RELATION = Math.sqrt(3)/2;
-	private static final double HORIZONTAL_MARGIN_FACTOR = Math.sqrt(2)/ UNIFORM_HEIGHT_TO_WIDTH_RELATION;
+	private static final double VERTICAL_MARGIN_FACTOR = Math.sqrt(4);
+	private static final double UNIFORM_HEIGHT_TO_WIDTH_RELATION = Math.sqrt(4)/3;
+	private static final double HORIZONTAL_MARGIN_FACTOR = Math.sqrt(4)/ UNIFORM_HEIGHT_TO_WIDTH_RELATION;
 	WideHexagonPainter(MainView mainView, NodeGeometryModel shapeConfigurationModel) {
 		super(mainView, shapeConfigurationModel);
 	}
@@ -55,7 +55,7 @@ class WideHexagonPainter extends VariableInsetsPainter {
 			double h = prefSize.height + getMinimumVerticalInset();
 			double diameter = Math.sqrt(w * w + h * h);
 			double width = mainView.limitWidth (diameter/ UNIFORM_HEIGHT_TO_WIDTH_RELATION);
-			prefSize.width = (int) Math.ceil(width);
+			prefSize.width = (int) Math.ceil(width) + 100;
 			prefSize.height = (int) (width * UNIFORM_HEIGHT_TO_WIDTH_RELATION);
 			return prefSize;
 		}

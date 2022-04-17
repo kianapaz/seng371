@@ -107,9 +107,9 @@ public class NodeView extends JComponent implements INodeView {
 	/** For RootNodeView. */
 	public final static int DRAGGED_OVER_SON_LEFT = 3;
 	private static final long serialVersionUID = 1L;
-	static final int SPACE_AROUND = 50;
+	static final int SPACE_AROUND = 80;
 	public static final int MAIN_VIEWER_POSITION = 1;
-	public static final int NOTE_VIEWER_POSITION = 10;
+	public static final int NOTE_VIEWER_POSITION = 40;
 	final static boolean PAINT_DEBUG_BORDER;
 	static {
 		boolean paintDebugBorder = false;
@@ -128,7 +128,7 @@ public class NodeView extends JComponent implements INodeView {
 	private NodeModel model;
 	private NodeView preferredChild;
 	private EdgeStyle edgeStyle = EdgeStyle.EDGESTYLE_HIDDEN;
-	private Integer edgeWidth = 1;
+	private Integer edgeWidth = 2;
 	private ObjectRule<Color, Rules> edgeColor = null;
 	private Color modelBackgroundColor;
 
@@ -137,7 +137,7 @@ public class NodeView extends JComponent implements INodeView {
 	private boolean isFolded;
 	private DashVariant edgeDash = DashVariant.DEFAULT;
 
-	public static final int DETAIL_VIEWER_POSITION = 2;
+	public static final int DETAIL_VIEWER_POSITION = 4;
 
 	protected NodeView(final NodeModel model, final MapView map, final Container parent) {
 		setFocusCycleRoot(true);
@@ -156,7 +156,7 @@ public class NodeView extends JComponent implements INodeView {
 		}
 		final DragSource dragSource = DragSource.getDefaultDragSource();
 		dragSource.createDefaultDragGestureRecognizer(getMainView(), DnDConstants.ACTION_COPY
-		        | DnDConstants.ACTION_MOVE | DnDConstants.ACTION_LINK, dgl);
+				| DnDConstants.ACTION_MOVE | DnDConstants.ACTION_LINK, dgl);
 	}
 
 	void addDropListener(final DropTargetListener dtl) {
@@ -172,8 +172,8 @@ public class NodeView extends JComponent implements INodeView {
 			final NodeModel parent = model.getParentNode();
 			Filter filter = map.getFilter();
 			int singleChildShift = ! getParentView().isSummary() && getModeController().hasOneVisibleChild(parent, filter)
-			        ? getMainView().getSingleChildShift() : 0;
-            return locationModel.getShiftY().toBaseUnitsRounded() + singleChildShift;
+					? getMainView().getSingleChildShift() : 0;
+			return locationModel.getShiftY().toBaseUnitsRounded() + singleChildShift;
 		}
 		catch (final NullPointerException e) {
 			return 0;
@@ -232,13 +232,13 @@ public class NodeView extends JComponent implements INodeView {
 	}
 
 	public Color getCloudColor() {
-	    final CloudModel cloudModel = getCloudModel();
+		final CloudModel cloudModel = getCloudModel();
 		if(cloudModel != null){
 			final Color cloudColor = cloudModel.getColor();
 			return cloudColor;
 		}
 		return null;
-    }
+	}
 
 	/**
 	 * This method returns the NodeViews that are children of this node.
@@ -307,7 +307,7 @@ public class NodeView extends JComponent implements INodeView {
 	}
 
 	private void getCoordinates(final LinkedList<Point> inList, int additionalDistanceForConvexHull,
-	                            final boolean byChildren, final int transX, final int transY) {
+								final boolean byChildren, final int transX, final int transY) {
 		if (!isVisible()) {
 			return;
 		}
@@ -317,7 +317,7 @@ public class NodeView extends JComponent implements INodeView {
 				final CloudController cloudController = CloudController.getController(modeController);
 				final CloudModel cloud = cloudController.getCloud(getModel(), getStyleOption());
 				if (cloud != null) {
-					additionalDistanceForConvexHull += CloudView.getAdditionalHeigth(cloud, this) / 5;
+					additionalDistanceForConvexHull += CloudView.getAdditionalHeigth(cloud, this) / 2;
 				}
 			}
 			final int x = transX + getContent().getX() - getDeltaX();
@@ -327,15 +327,15 @@ public class NodeView extends JComponent implements INodeView {
 			final int height = Math.max(heightWithFoldingMark, getContent().getHeight());
 			inList.addLast(new Point(-additionalDistanceForConvexHull + x, -additionalDistanceForConvexHull + y));
 			inList
-			    .addLast(new Point(-additionalDistanceForConvexHull + x, additionalDistanceForConvexHull + y + height));
+					.addLast(new Point(-additionalDistanceForConvexHull + x, additionalDistanceForConvexHull + y + height));
 			inList.addLast(new Point(additionalDistanceForConvexHull + x + width, additionalDistanceForConvexHull + y
-			        + height));
+					+ height));
 			inList
-			    .addLast(new Point(additionalDistanceForConvexHull + x + width, -additionalDistanceForConvexHull + y));
+					.addLast(new Point(additionalDistanceForConvexHull + x + width, -additionalDistanceForConvexHull + y));
 		}
 		for (final NodeView child : getChildrenViews()) {
 			child.getCoordinates(inList, additionalDistanceForConvexHull, true, transX + child.getX(),
-			    transY + child.getY());
+					transY + child.getY());
 		}
 	}
 
@@ -454,7 +454,7 @@ public class NodeView extends JComponent implements INodeView {
 				absLinkY = Math.abs(y * getContent().getWidth() / (2 * x));
 			}
 			linkPoint = new Point(getContent().getWidth() / 2 + (x > 0 ? absLinkX : -absLinkX), getContent()
-			    .getHeight() / 2 + (y > 0 ? absLinkY : -absLinkY));
+					.getHeight() / 2 + (y > 0 ? absLinkY : -absLinkY));
 		}
 		else {
 			linkPoint = new Point((x > 0 ? getContent().getWidth() : 0), (getContent().getHeight() / 2));
@@ -468,29 +468,29 @@ public class NodeView extends JComponent implements INodeView {
 		return mainView;
 	}
 
-    public Point getMainViewConnectorPoint(NodeView target) {
-        final Point relativeLocation = getRelativeLocation(target);
-        relativeLocation.x += target.getMainView().getWidth()/2;
-        relativeLocation.y += target.getMainView().getHeight()/2;
-        return mainView.getConnectorPoint(relativeLocation);
-    }
+	public Point getMainViewConnectorPoint(NodeView target) {
+		final Point relativeLocation = getRelativeLocation(target);
+		relativeLocation.x += target.getMainView().getWidth()/2;
+		relativeLocation.y += target.getMainView().getHeight()/2;
+		return mainView.getConnectorPoint(relativeLocation);
+	}
 
-    public Point getRelativeLocation(NodeView target) {
-        Component component;
-        int targetX = 0;
-        int targetY = 0;
-        for(component = target.getMainView();
-            !(this.equals(component) || component.getClass().equals(MapView.class));
-            component = component.getParent()){
-            targetX += component.getX();
-            targetY += component.getY();
-        }
-        Point relativeLocation = new Point();
-        UITools.convertPointToAncestor(mainView, relativeLocation, component);
-        relativeLocation.x = targetX - relativeLocation.x;
-        relativeLocation.y = targetY - relativeLocation.y;
-        return relativeLocation;
-    }
+	public Point getRelativeLocation(NodeView target) {
+		Component component;
+		int targetX = 0;
+		int targetY = 0;
+		for(component = target.getMainView();
+			!(this.equals(component) || component.getClass().equals(MapView.class));
+			component = component.getParent()){
+			targetX += component.getX();
+			targetY += component.getY();
+		}
+		Point relativeLocation = new Point();
+		UITools.convertPointToAncestor(mainView, relativeLocation, component);
+		relativeLocation.x = targetX - relativeLocation.x;
+		relativeLocation.y = targetY - relativeLocation.y;
+		return relativeLocation;
+	}
 
 	public MapView getMap() {
 		return map;
@@ -500,7 +500,7 @@ public class NodeView extends JComponent implements INodeView {
 		if (maxToolTipWidth == 0) {
 			try {
 				maxToolTipWidth = ResourceController.getResourceController().getIntProperty(
-				    "toolTipManager.max_tooltip_width", 600);
+						"toolTipManager.max_tooltip_width", 600);
 			}
 			catch (final NumberFormatException e) {
 				maxToolTipWidth = 600;
@@ -544,7 +544,7 @@ public class NodeView extends JComponent implements INodeView {
 		}
 		while (sibling.getModel().getNodeLevel(map.getFilter()) < map.getSiblingMaxLevel()) {
 			final NodeView first = sibling.getFirst(sibling.isRoot() ? lastSibling : null, this.isLeft(),
-			    !this.isLeft());
+					!this.isLeft());
 			if (first == null) {
 				break;
 			}
@@ -682,7 +682,7 @@ public class NodeView extends JComponent implements INodeView {
 		}
 		while (sibling.getModel().getNodeLevel(map.getFilter()) < map.getSiblingMaxLevel()) {
 			final NodeView last = sibling.getLast(sibling.isRoot() ? previousSibling : null, this.isLeft(),
-			    !this.isLeft());
+					!this.isLeft());
 			if (last == null) {
 				break;
 			}
@@ -708,35 +708,35 @@ public class NodeView extends JComponent implements INodeView {
 	}
 
 	/**
-		 * @return Returns the sHIFT.s
-		 */
+	 * @return Returns the sHIFT.s
+	 */
 	public int getShift() {
 		final LocationModel locationModel = LocationModel.getModel(model);
 		return map.getZoomed(calcShiftY(locationModel));
 	}
 
-    public Color getTextBackground() {
-        if (modelBackgroundColor != null) {
-            return modelBackgroundColor;
-        }
-        return getBackgroundColor();
-    }
+	public Color getTextBackground() {
+		if (modelBackgroundColor != null) {
+			return modelBackgroundColor;
+		}
+		return getBackgroundColor();
+	}
 
-    public void setTextBackground(Color textBackground) {
-        modelBackgroundColor = textBackground;
-    }
+	public void setTextBackground(Color textBackground) {
+		modelBackgroundColor = textBackground;
+	}
 
-    public Color getTextBackground(StyleOption styleOption) {
-        Color modelBackgroundColor = styleController().getBackgroundColor(model, styleOption);
-        if (modelBackgroundColor != null) {
-            return modelBackgroundColor;
-        }
-        return getBackgroundColor();
-    }
+	public Color getTextBackground(StyleOption styleOption) {
+		Color modelBackgroundColor = styleController().getBackgroundColor(model, styleOption);
+		if (modelBackgroundColor != null) {
+			return modelBackgroundColor;
+		}
+		return getBackgroundColor();
+	}
 
-    private NodeStyleController styleController() {
-        return NodeStyleController.getController(getModeController());
-    }
+	private NodeStyleController styleController() {
+		return NodeStyleController.getController(getModeController());
+	}
 
 	public Color getTextColor(StyleOption styleOption) {
 		final Color color = styleController().getColor(model, styleOption);
@@ -748,7 +748,7 @@ public class NodeView extends JComponent implements INodeView {
 	 */
 	public int getMinimalDistanceBetweenChildren() {
 		final double minimalDistanceBetweenChildren = getModeController().getExtension(LocationController.class).getMinimalDistanceBetweenChildren(model).toBaseUnits();
-		return map.getZoomed(minimalDistanceBetweenChildren);
+		return map.getZoomed(minimalDistanceBetweenChildren) + 20;
 	}
 
 	public NodeView getAncestorWithVisibleContent() {
@@ -820,7 +820,7 @@ public class NodeView extends JComponent implements INodeView {
 	}
 
 	void addChildView(final NodeModel newNode, int index) {
-			NodeViewFactory.getInstance().newNodeView(newNode, map, this, index);
+		NodeViewFactory.getInstance().newNodeView(newNode, map, this, index);
 	}
 
 	/* fc, 25.1.2004: Refactoring necessary: should call the model. */
@@ -891,7 +891,7 @@ public class NodeView extends JComponent implements INodeView {
 		if(property == NodeVisibilityConfiguration.class) {
 			updateAll();
 			if(event.getNewValue() != NodeVisibilityConfiguration.SHOW_HIDDEN_NODES)
-			    FilterController.getCurrentFilterController().selectVisibleNodes(map.getMapSelection());
+				FilterController.getCurrentFilterController().selectVisibleNodes(map.getMapSelection());
 			return;
 		}
 
@@ -899,8 +899,8 @@ public class NodeView extends JComponent implements INodeView {
 				&& node.getMap().getRootNode().getExtension(NodeVisibilityConfiguration.class) != NodeVisibilityConfiguration.SHOW_HIDDEN_NODES) {
 			final NodeView parentView = getParentView();
 			parentView.setFolded(parentView.isFolded, true);
-            if(event.getNewValue() == NodeVisibility.HIDDEN && isSelected())
-                FilterController.getCurrentFilterController().selectVisibleNodes(map.getMapSelection());
+			if(event.getNewValue() == NodeVisibility.HIDDEN && isSelected())
+				FilterController.getCurrentFilterController().selectVisibleNodes(map.getMapSelection());
 			return;
 		}
 
@@ -1042,27 +1042,27 @@ public class NodeView extends JComponent implements INodeView {
 		final ModeController modeController = getModeController();
 		final Object renderingHint = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
 		switch (paintingMode) {
-		case CLOUDS:
-		    if (isSubtreeVisible()) {
-		        modeController.getController().getMapViewManager().setEdgesRenderingHint(g2);
-		        final boolean isRoot = isRoot();
-		        if (isRoot) {
-		            paintCloud(g);
-		        }
-		        paintClouds(g2);
-		        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, renderingHint);
-		    }
-		    break;
-		case NODES:
-		    if (isContentVisible()) {
-		        g2.setStroke(MainView.DEF_STROKE);
-		        modeController.getController().getMapViewManager().setEdgesRenderingHint(g2);
-		        paintEdges(g2, this);
-		        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, renderingHint);
-		    }
-		    break;
-		default:
-		    break;
+			case CLOUDS:
+				if (isSubtreeVisible()) {
+					modeController.getController().getMapViewManager().setEdgesRenderingHint(g2);
+					final boolean isRoot = isRoot();
+					if (isRoot) {
+						paintCloud(g);
+					}
+					paintClouds(g2);
+					g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, renderingHint);
+				}
+				break;
+			case NODES:
+				if (isContentVisible()) {
+					g2.setStroke(MainView.DEF_STROKE);
+					modeController.getController().getMapViewManager().setEdgesRenderingHint(g2);
+					paintEdges(g2, this);
+					g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, renderingHint);
+				}
+				break;
+			default:
+				break;
 		}
 		if (PAINT_DEBUG_BORDER && isSelected() && paintingMode.equals(PaintingMode.SELECTED_NODES)){
 			final int spaceAround = getZoomed(SPACE_AROUND);
@@ -1072,12 +1072,12 @@ public class NodeView extends JComponent implements INodeView {
 	}
 
 	@Override
-    public void paint(Graphics g) {
+	public void paint(Graphics g) {
 		if(isSubtreeVisible()) {
 			super.paint(g);
 			paintDecoration((Graphics2D) g);
 		}
-    }
+	}
 
 	private void paintCloud(final Graphics g) {
 		if (!isSubtreeVisible()) {
@@ -1091,75 +1091,75 @@ public class NodeView extends JComponent implements INodeView {
 		cloud.paint(g);
 	}
 
-    private void paintClouds(final Graphics2D g) {
-        for (int i = getComponentCount() - 1; i >= 0; i--) {
-            final Component component = getComponent(i);
-            if (!(component instanceof NodeView)) {
-                continue;
-            }
-            final NodeView nodeView = (NodeView) component;
-            final Point p = new Point();
-            UITools.convertPointToAncestor(nodeView, p, this);
-            g.translate(p.x, p.y);
-            if (nodeView.isSubtreeVisible()) {
-                nodeView.paintCloud(g);
-            }
-            else {
-                nodeView.paintClouds(g);
-            }
-            g.translate(-p.x, -p.y);
-        }
-    }
+	private void paintClouds(final Graphics2D g) {
+		for (int i = getComponentCount() - 1; i >= 0; i--) {
+			final Component component = getComponent(i);
+			if (!(component instanceof NodeView)) {
+				continue;
+			}
+			final NodeView nodeView = (NodeView) component;
+			final Point p = new Point();
+			UITools.convertPointToAncestor(nodeView, p, this);
+			g.translate(p.x, p.y);
+			if (nodeView.isSubtreeVisible()) {
+				nodeView.paintCloud(g);
+			}
+			else {
+				nodeView.paintClouds(g);
+			}
+			g.translate(-p.x, -p.y);
+		}
+	}
 
-    private void paintEdges(final Graphics2D g, NodeView source) {
-    	SummaryEdgePainter summaryEdgePainter = new SummaryEdgePainter(this, isRoot() ? true : isLeft());
-    	SummaryEdgePainter rightSummaryEdgePainter =  isRoot() ? new SummaryEdgePainter(this, false) : null;
-        final int start;
-        final int end;
-        final int step;
-        if (map.getLayoutType() == MapViewLayout.OUTLINE){
-        	start = getComponentCount() - 1;
-        	end = -1;
-        	step = -1;
-        }
-        else{
-        	start = 0;
-        	end = getComponentCount();
-        	step = 1;
-        }
+	private void paintEdges(final Graphics2D g, NodeView source) {
+		SummaryEdgePainter summaryEdgePainter = new SummaryEdgePainter(this, isRoot() ? true : isLeft());
+		SummaryEdgePainter rightSummaryEdgePainter =  isRoot() ? new SummaryEdgePainter(this, false) : null;
+		final int start;
+		final int end;
+		final int step;
+		if (map.getLayoutType() == MapViewLayout.OUTLINE){
+			start = getComponentCount() - 1;
+			end = -1;
+			step = -1;
+		}
+		else{
+			start = 0;
+			end = getComponentCount();
+			step = 1;
+		}
 		for (int i = start; i != end; i+=step) {
-            final Component component = getComponent(i);
-            if (!(component instanceof NodeView)) {
-                continue;
-            }
-            final NodeView nodeView = (NodeView) component;
-        	if (map.getLayoutType() != MapViewLayout.OUTLINE) {
-        		SummaryEdgePainter activePainter = nodeView.isLeft() || !isRoot() ? summaryEdgePainter : rightSummaryEdgePainter;
-        		activePainter.addChild(nodeView);
-        		if(activePainter.paintSummaryEdge(g, source, nodeView)){
-        			if(! nodeView.isContentVisible()){
-        				final Rectangle bounds =  SwingUtilities.convertRectangle(this, nodeView.getBounds(), source);
-        				final Graphics cg = g.create(bounds.x, bounds.y, bounds.width, bounds.height);
-        				try{
-        					nodeView.paintEdges((Graphics2D) cg, nodeView);
-        				}
-        				finally{
-        					cg.dispose();
-        				}
+			final Component component = getComponent(i);
+			if (!(component instanceof NodeView)) {
+				continue;
+			}
+			final NodeView nodeView = (NodeView) component;
+			if (map.getLayoutType() != MapViewLayout.OUTLINE) {
+				SummaryEdgePainter activePainter = nodeView.isLeft() || !isRoot() ? summaryEdgePainter : rightSummaryEdgePainter;
+				activePainter.addChild(nodeView);
+				if(activePainter.paintSummaryEdge(g, source, nodeView)){
+					if(! nodeView.isContentVisible()){
+						final Rectangle bounds =  SwingUtilities.convertRectangle(this, nodeView.getBounds(), source);
+						final Graphics cg = g.create(bounds.x, bounds.y, bounds.width, bounds.height);
+						try{
+							nodeView.paintEdges((Graphics2D) cg, nodeView);
+						}
+						finally{
+							cg.dispose();
+						}
 
-        			}
-        			continue;
-        		}
-            }
-        	if (nodeView.isContentVisible()) {
-        		final EdgeView edge = EdgeViewFactory.getInstance().getEdge(source, nodeView, source);
-        		edge.paint(g);
-        	}
-        	else {
-        		nodeView.paintEdges(g, source);
-        	}
-        }
-    }
+					}
+					continue;
+				}
+			}
+			if (nodeView.isContentVisible()) {
+				final EdgeView edge = EdgeViewFactory.getInstance().getEdge(source, nodeView, source);
+				edge.paint(g);
+			}
+			else {
+				nodeView.paintEdges(g, source);
+			}
+		}
+	}
 
 
 	int getSpaceAround() {
@@ -1207,7 +1207,7 @@ public class NodeView extends JComponent implements INodeView {
 		Point contentLocation = content.getLocation();
 		final int arcWidth = 15;
 		g.drawRoundRect(contentLocation.x - arcMargin, contentLocation.y - arcMargin, content.getWidth() + 2 * arcMargin,
-		    content.getHeight() + 2 * arcMargin, arcWidth, arcWidth);
+				content.getHeight() + 2 * arcMargin, arcWidth, arcWidth);
 		g.setColor(oldColor);
 		g.setStroke(oldStroke);
 	}
@@ -1242,16 +1242,16 @@ public class NodeView extends JComponent implements INodeView {
 			return;
 		}
 		final Point relativeLocation = getRelativeLocation(target);
-        final MainView targetMainView = target.getMainView();
-        relativeLocation.x += targetMainView.getWidth()/2;
-        relativeLocation.y += targetMainView.getHeight()/2;
-        final Point inPoint = mainView.getConnectorPoint(relativeLocation);
-        UITools.convertPointToAncestor(targetMainView, inPoint, this);
+		final MainView targetMainView = target.getMainView();
+		relativeLocation.x += targetMainView.getWidth()/2;
+		relativeLocation.y += targetMainView.getHeight()/2;
+		final Point inPoint = mainView.getConnectorPoint(relativeLocation);
+		UITools.convertPointToAncestor(targetMainView, inPoint, this);
 
-        relativeLocation.x -= targetMainView.getWidth()/2;
-        relativeLocation.y -= targetMainView.getHeight()/2;
-        relativeLocation.x = - relativeLocation.x + mainView.getWidth()/2;
-        relativeLocation.y = - relativeLocation.y + mainView.getHeight()/2;
+		relativeLocation.x -= targetMainView.getWidth()/2;
+		relativeLocation.y -= targetMainView.getHeight()/2;
+		relativeLocation.x = - relativeLocation.x + mainView.getWidth()/2;
+		relativeLocation.y = - relativeLocation.y + mainView.getHeight()/2;
 		final Point outPoint = targetMainView.getConnectorPoint(relativeLocation);
 		UITools.convertPointToAncestor(getMainView(), outPoint, this);
 
@@ -1397,6 +1397,8 @@ public class NodeView extends JComponent implements INodeView {
 	}
 
 	public void update() {
+		if(! isDisplayable())
+			return;
 		invalidate();
 		updateShape();
 		updateEdge();
@@ -1412,12 +1414,12 @@ public class NodeView extends JComponent implements INodeView {
 		mainView.updateHorizontalTextAlignment(this);
 		mainView.updateBorder(this);
 		final ModeController modeController = getModeController();
-        final NodeStyleController nsc = NodeStyleController.getController(modeController);
-        StyleOption styleOption = getStyleOption();
-        final int minNodeWidth = map.getZoomed(nsc.getMinWidth(getModel(), styleOption).toBaseUnits());
-        final int maxNodeWidth = Math.max(map.getLayoutSpecificMaxNodeWidth(), map.getZoomed(nsc.getMaxWidth(getModel(), styleOption).toBaseUnits()));
-        mainView.setMinimumWidth(minNodeWidth);
-        mainView.setMaximumWidth(maxNodeWidth);
+		final NodeStyleController nsc = NodeStyleController.getController(modeController);
+		StyleOption styleOption = getStyleOption();
+		final int minNodeWidth = map.getZoomed(nsc.getMinWidth(getModel(), styleOption).toBaseUnits());
+		final int maxNodeWidth = Math.max(map.getLayoutSpecificMaxNodeWidth(), map.getZoomed(nsc.getMaxWidth(getModel(), styleOption).toBaseUnits()));
+		mainView.setMinimumWidth(minNodeWidth);
+		mainView.setMaximumWidth(maxNodeWidth);
 
 		createAttributeView();
 		if (attributeView != null) {
@@ -1447,19 +1449,19 @@ public class NodeView extends JComponent implements INodeView {
 		repaint();
 	}
 
-    private ModeController getModeController() {
-        return map.getModeController();
-    }
+	private ModeController getModeController() {
+		return map.getModeController();
+	}
 
 	public boolean isShortened() {
-	    final ModeController modeController = getModeController();
+		final ModeController modeController = getModeController();
 		final TextController textController = TextController.getController(modeController);
 		final boolean textShortened = textController.isMinimized(getModel());
-	    return textShortened;
-    }
+		return textShortened;
+	}
 
 	private void updateEdge() {
-        final EdgeController edgeController = EdgeController.getController(getModeController());
+		final EdgeController edgeController = EdgeController.getController(getModeController());
 		this.edgeStyle = edgeController.getStyle(model, getStyleOption(), false);
 		final NodeModel realNode = SummaryNode.getRealNode(model);
 		this.edgeWidth = edgeController.getWidth(realNode, getStyleOption(), false);
@@ -1469,7 +1471,7 @@ public class NodeView extends JComponent implements INodeView {
 		final NodeModel parentNode = model.getParentNode();
 		if(parentNode != null && SummaryNode.isSummaryNode(parentNode))
 			getParentView().updateEdge();
-    }
+	}
 
 	public EdgeStyle getEdgeStyle() {
 		if(edgeStyle != null)
@@ -1478,25 +1480,25 @@ public class NodeView extends JComponent implements INodeView {
 		if(parentView != null)
 			return parentView.getEdgeStyle();
 		return EdgeStyle.values()[0];
-    }
+	}
 
 	public DashVariant getEdgeDash() {
 		if(edgeDash != null)
-		    return edgeDash;
+			return edgeDash;
 		final NodeView parentView = getParentView();
 		if(parentView != null)
 			return parentView.getEdgeDash();
 		return DashVariant.DEFAULT;
-    }
+	}
 
 	public int getEdgeWidth() {
 		if(edgeWidth != null)
-		    return edgeWidth;
+			return edgeWidth;
 		final NodeView parentView = getParentView();
 		if(parentView != null)
 			return parentView.getEdgeWidth();
 		return 1;
-    }
+	}
 
 	public Color getEdgeColor() {
 		if(edgeColor.hasValue())
@@ -1525,7 +1527,7 @@ public class NodeView extends JComponent implements INodeView {
 			}
 		}
 		else
-			if(rule == EdgeController.Rules.BY_PARENT) {
+		if(rule == EdgeController.Rules.BY_PARENT) {
 			final NodeView parentView = getParentView();
 			if (parentView != null) {
 				final Color color = parentView.getEdgeColor();
@@ -1533,16 +1535,16 @@ public class NodeView extends JComponent implements INodeView {
 			}
 		}
 		return Color.GRAY;
-    }
+	}
 
 	private void updateCloud() {
 		final CloudModel cloudModel = CloudController.getController(getModeController()).getCloud(model, getStyleOption());
 		putClientProperty(CloudModel.class, cloudModel);
-    }
+	}
 
 	public CloudModel getCloudModel() {
 		return (CloudModel) getClientProperty(CloudModel.class);
-    }
+	}
 
 	private void updateShortener(NodeModel nodeModel, boolean textShortened) {
 		final boolean componentsVisible = !textShortened;
@@ -1605,7 +1607,7 @@ public class NodeView extends JComponent implements INodeView {
 			final Object clientProperty = content.getClientProperty("NODE_VIEW_CONTENT_POSITION");
 			if (clientProperty == null)
 				throw new RuntimeException("NODE_VIEW_CONTENT_POSITION not set on component " + content.toString() + i
-				        + "/" + contentPane.getComponentCount());
+						+ "/" + contentPane.getComponentCount());
 			if (pos < (Integer) clientProperty) {
 				contentPane.add(component, i);
 				return;
@@ -1657,7 +1659,7 @@ public class NodeView extends JComponent implements INodeView {
 		return FreeNode.isFreeNode(getModel());
 	}
 
- 	int getTopOverlap() {
+	int getTopOverlap() {
 		return topOverlap;
 	}
 
@@ -1682,20 +1684,20 @@ public class NodeView extends JComponent implements INodeView {
 	}
 
 	boolean isSubtreeVisible() {
-	    if(isValid())
-	        return getHeight() > 2 * getSpaceAround();
-	    if(isContentVisible())
-	        return true;
-	    final Component[] components = getComponents();
-	    for (int i = 0; i < components.length; i++) {
-	        if (!(components[i] instanceof NodeView)) {
-	            continue;
-	        }
-	        final NodeView view = (NodeView) components[i];
-	        if(view.isSubtreeVisible())
-	            return true;
-	    }
-	    return false;
+		if(isValid())
+			return getHeight() > 2 * getSpaceAround();
+		if(isContentVisible())
+			return true;
+		final Component[] components = getComponents();
+		for (int i = 0; i < components.length; i++) {
+			if (!(components[i] instanceof NodeView)) {
+				continue;
+			}
+			final NodeView view = (NodeView) components[i];
+			if(view.isSubtreeVisible())
+				return true;
+		}
+		return false;
 	}
 
 
@@ -1738,30 +1740,30 @@ public class NodeView extends JComponent implements INodeView {
 		return hiddenChildren != null && hiddenChildren.remove(node);
 	}
 
-    public Rectangle getInnerBounds() {
-        int spaceAround = getSpaceAround();
-        if (isContentVisible())
-            return new Rectangle(spaceAround, spaceAround, getWidth() - 2 * spaceAround, getHeight() - 2 * spaceAround);
-        else {
-            Rectangle innerBounds = new Rectangle(spaceAround, spaceAround, -1, -1);
-            getChildrenViews().stream()
-            .map(v -> {
-                Rectangle r = v.getInnerBounds();
-                r.x += v.getX();
-                r.y += v.getY();
-                return r;
-            })
-            .forEach(innerBounds::add);
-            innerBounds.y = spaceAround;
-            innerBounds.width = Math.max(0, innerBounds.width);
-            innerBounds.height = getHeight() - 2 * spaceAround;
-            return innerBounds;
-        }
-    }
+	public Rectangle getInnerBounds() {
+		int spaceAround = getSpaceAround();
+		if (isContentVisible())
+			return new Rectangle(spaceAround, spaceAround, getWidth() - 2 * spaceAround, getHeight() - 2 * spaceAround);
+		else {
+			Rectangle innerBounds = new Rectangle(spaceAround, spaceAround, -1, -1);
+			getChildrenViews().stream()
+					.map(v -> {
+						Rectangle r = v.getInnerBounds();
+						r.x += v.getX();
+						r.y += v.getY();
+						return r;
+					})
+					.forEach(innerBounds::add);
+			innerBounds.y = spaceAround;
+			innerBounds.width = Math.max(0, innerBounds.width);
+			innerBounds.height = getHeight() - 2 * spaceAround;
+			return innerBounds;
+		}
+	}
 
-    public StyleOption getStyleOption() {
-        return useSelectionColors() ? StyleOption.FOR_SELECTED_NODE : StyleOption.FOR_UNSELECTED_NODE; 
-    }
+	public StyleOption getStyleOption() {
+		return useSelectionColors() ? StyleOption.FOR_SELECTED_NODE : StyleOption.FOR_UNSELECTED_NODE;
+	}
 
 
 }
