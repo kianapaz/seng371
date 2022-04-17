@@ -44,16 +44,16 @@ public class AutomaticEdgeStyle {
 		}
 		else {
 			if(origin.x < coordinate.x ){
-				distance = Math.max(0, coordinate.x  - origin.x + nodeContent.getWidth() - rootContent.getWidth());
+				distance = Math.max(0, coordinate.x  - origin.x + nodeContent.getWidth() - rootContent.getWidth()) + 10;
 			}
 			else{
-				distance = origin.x - coordinate.x;
+				distance = origin.x - coordinate.x + 10;
 			}
 			final NodeModel defaultStyleNode = mapStyleNodes.getDefaultStyleNode();
 			final NodeStyleController nodeStyleController = modeController.getExtension(NodeStyleController.class);
 			nodeColumnWidth = map.getZoomed(nodeStyleController.getMaxWidth(defaultStyleNode, StyleOption.FOR_UNSELECTED_NODE).toBaseUnitsRounded() + LocationModel.DEFAULT_HGAP_PX);
 		}
-		int level = (int) ((float)distance / nodeColumnWidth + 0.5);
+		int level = (int) ((float)distance / nodeColumnWidth + 3.5);
 		if(SummaryNode.isHidden(node.getModel()))
 			level++;
 

@@ -225,7 +225,7 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 		if(oldMapView != null)
 			oldMapView.repaint();
 		if (newMapView != null) {
-		    newMapView.revalidateSelecteds();
+			newMapView.revalidateSelecteds();
 			final ModeController modeController = newMapView.getModeController();
 			lastModeName = modeController.getModeName();
 			final float mapViewZoom = newMapView.getZoom();
@@ -327,7 +327,7 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 	}
 
 	private boolean close(final Component mapViewComponent, boolean forceCloseWithoutSaving) {
-	    if (mapViewComponent == null) {
+		if (mapViewComponent == null) {
 			return false;
 		}
 		MapView mapView = (MapView) mapViewComponent;
@@ -347,7 +347,7 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 		remove(mapView);
 		mapView.getRoot().remove();
 		return true;
-    }
+	}
 
 	private void remove(MapView mapView) {
 		int index = mapViewVector.indexOf(mapView);
@@ -372,7 +372,7 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 	public String createHtmlMap() {
 		final MapModel model = getModel();
 		final ClickableImageCreator creator = new ClickableImageCreator(model.getRootNode(), getMapView()
-		    .getModeController(), "FM$1FM");
+				.getModeController(), "FM$1FM");
 		return creator.generateHtml();
 	}
 
@@ -405,12 +405,12 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 		final Rectangle printedGraphicsBounds = new Rectangle(contentLocation.x + content.getWidth() / 2 - slideSize.width / 2,
 				contentLocation.y + content.getHeight() / 2 - slideSize.height / 2, slideSize.width, slideSize.height);
 
-		final int distanceToMargin = (slideSize.width - content.getWidth()) / 2 - 10;
+		final int distanceToMargin = (slideSize.width - content.getWidth()) / 2 ;//- 10;
 		if(placedNodePosition == NodePosition.LEFT){
-			printedGraphicsBounds.x += distanceToMargin;
+			printedGraphicsBounds.x += distanceToMargin + 1;
 		}
 		if(placedNodePosition == NodePosition.RIGHT){
-			printedGraphicsBounds.x -= distanceToMargin;
+			printedGraphicsBounds.x -= distanceToMargin + 1;
 		}
 		return createImage(dpi, printedGraphicsBounds);
 	}
@@ -432,9 +432,9 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 		final BufferedImage myImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
 		final Graphics2D g = (Graphics2D) myImage.getGraphics();
 		Color background = view.getBackground();
-        if(background == null) {
-            background = SystemColor.window;
-        }
+		if(background == null) {
+			background = SystemColor.window;
+		}
 
 		g.setBackground(background);
 		g.clearRect(0, 0, imageWidth, imageHeight);
@@ -764,7 +764,7 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 			return true;
 		}
 		return false;
-    }
+	}
 
 	/* (non-Javadoc)
 	 * @see org.freeplane.core.frame.IMapViewController#updateMapViewName()
@@ -930,7 +930,7 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 	}
 
 	private static final String[] zooms = ResourceController.getResourceController().getArrayProperty("predefined_zoom_levels", ", *");
-	
+
 	@Override
 	public void obtainFocusForSelected() {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -1045,12 +1045,12 @@ public class MapViewController implements IMapViewManager , IMapViewChangeListen
 			String workspaceTitle = ResourceController.getResourceController().getProperty("workspaceTitle");
 			if (model != null) {
 				viewName = getMapViewComponent().getName();
-				frameTitle = (workspaceTitle.isEmpty() ? "" : workspaceTitle + " - ") 
-						+ viewName 
-						+ ((model.isSaved() || model.isReadOnly()) ? "" : "*") 
+				frameTitle = (workspaceTitle.isEmpty() ? "" : workspaceTitle + " - ")
+						+ viewName
+						+ ((model.isSaved() || model.isReadOnly()) ? "" : "*")
 						+ " - " + modeName
 						+ (modeController.isEditingLocked() ? format("OptionPanel.view_mode.true") :
-							model.isReadOnly() ? format("read_only") : "");
+						model.isReadOnly() ? format("read_only") : "");
 				final File file = model.getFile();
 				if (file != null) {
 					frameTitle += " " + file.getAbsolutePath();

@@ -33,10 +33,10 @@ import org.freeplane.features.map.NodeModel;
 import org.freeplane.features.map.SummaryLevels;
 import org.freeplane.features.nodelocation.LocationModel;
 
-class VerticalNodeViewLayoutStrategy {
-	
+public class VerticalNodeViewLayoutStrategy {
+
 	static private boolean wrongChildComponentsReported = false;
-	
+
 	private int childViewCount;
 	private final int spaceAround;
 	private final NodeView view;
@@ -97,7 +97,7 @@ class VerticalNodeViewLayoutStrategy {
 			calculateLayoutData(isLeft);
 		applyLayoutToChildComponents();
 	}
-	
+
 	private void calculateLayoutData(final boolean isLeft) {
 		setFreeChildNodes(isLeft);
 		calculateLayoutY(isLeft);
@@ -110,7 +110,7 @@ class VerticalNodeViewLayoutStrategy {
 		final Dimension contentSize = ContentSizeCalculator.INSTANCE.calculateContentSize(view);
 		int childContentHeightSum = 0;
 		int top = 0;
-		int level = viewLevels.highestSummaryLevel + 1;
+		int level = viewLevels.highestSummaryLevel + 15;
 		int y = 0;
 		int vGap = 0;
 		int visibleChildCounter = 0;
@@ -196,7 +196,7 @@ class VerticalNodeViewLayoutStrategy {
 						groupUpperYCoordinate[itemLevel] = y;
 						groupLowerYCoordinate[itemLevel] = y;
 					}
-					int summaryY = (groupUpperYCoordinate[itemLevel] + groupLowerYCoordinate[itemLevel]) / 2 
+					int summaryY = (groupUpperYCoordinate[itemLevel] + groupLowerYCoordinate[itemLevel]) / 2
 							- childContentHeight / 2 + childShiftY
 							- (child.getContent().getY() - childCloudHeigth / 2 - spaceAround);
 					this.yCoordinates[childViewIndex] = summaryY;
@@ -253,12 +253,12 @@ class VerticalNodeViewLayoutStrategy {
 		if(defaultVGap >= distance)
 			return distance;
 		else
-			return defaultVGap + (distance - defaultVGap) / 6;
+			return defaultVGap + (distance - defaultVGap) / 2;
 	}
 
 	private void calculateLayoutX(final boolean isLeft) {
 		final Dimension contentSize = ContentSizeCalculator.INSTANCE.calculateContentSize(view);
-		int level = viewLevels.highestSummaryLevel + 1;
+		int level = viewLevels.highestSummaryLevel + 15;
 		final int summaryBaseX[] = new int[level];
 		for (int i = 0; i < childViewCount; i++) {
 			final NodeView child = (NodeView) view.getComponent(i);
@@ -271,16 +271,16 @@ class VerticalNodeViewLayoutStrategy {
 				if (child.isContentVisible())
 					childHGap = child.getHGap();
 				else if (child.isSummary())
-					childHGap = child.getZoomed(LocationModel.DEFAULT_HGAP_PX*7/12);
+					childHGap = child.getZoomed(LocationModel.DEFAULT_HGAP_PX*9/14);
 				else
-					childHGap = 0;
+					childHGap = 5;
 				if(view.getModel().isHiddenSummary() && ! child.getModel().isHiddenSummary())
-					childHGap -= child.getZoomed(LocationModel.DEFAULT_HGAP_PX*7/12);
+					childHGap -= child.getZoomed(LocationModel.DEFAULT_HGAP_PX*9/14);
 
 				if (isItem) {
 					if (!isFreeNode && (oldLevel > 0 || child.isFirstGroupNode()))
 						summaryBaseX[0] = 0;
-				} 
+				}
 				else if (child.isFirstGroupNode())
 					summaryBaseX[level] = 0;
 
@@ -297,10 +297,10 @@ class VerticalNodeViewLayoutStrategy {
 					}
 				}
 				if (child.isLeft()) {
-					x = baseX - childHGap - child.getContent().getX() - child.getContent().getWidth();
+					x = baseX - childHGap - child.getContent().getX() - child.getContent().getWidth() + 10;
 					summaryBaseX[level] = Math.min(summaryBaseX[level], x + spaceAround);
 				} else {
-					x = baseX + childHGap - child.getContent().getX();
+					x = baseX + childHGap - child.getContent().getX() + 10;
 					summaryBaseX[level] = Math.max(summaryBaseX[level], x + child.getWidth() - spaceAround);
 				}
 				left = Math.min(left, x);
