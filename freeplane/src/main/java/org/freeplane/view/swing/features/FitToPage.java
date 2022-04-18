@@ -46,6 +46,10 @@ public class FitToPage extends AFreeplaneAction {
 		super("FitToPage");
 	}
 
+	public void createShortcut(){
+		MenuShortcut ms = new MenuShortcut(KeyEvent.VK_A, false);
+	}
+	
 	public void actionPerformed(final ActionEvent e) {
 		view = (MapView) Controller.getCurrentController().getMapViewManager().getMapViewComponent();
 		if (view == null) {
